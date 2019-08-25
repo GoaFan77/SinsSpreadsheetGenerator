@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SinsSpreadsheetGenerator", "SinsSpreadsheetGenerator\SinsSpreadsheetGenerator.csproj", "{3845CDC6-3CBF-4A07-A7B1-AD23A924CF60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{84435E24-D2E0-4752-9CDD-91D715CF8462}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3845CDC6-3CBF-4A07-A7B1-AD23A924CF60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3845CDC6-3CBF-4A07-A7B1-AD23A924CF60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3845CDC6-3CBF-4A07-A7B1-AD23A924CF60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3845CDC6-3CBF-4A07-A7B1-AD23A924CF60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84435E24-D2E0-4752-9CDD-91D715CF8462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84435E24-D2E0-4752-9CDD-91D715CF8462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84435E24-D2E0-4752-9CDD-91D715CF8462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84435E24-D2E0-4752-9CDD-91D715CF8462}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B713C8C5-6F7D-464A-A6CE-395C7554AFEB}
+	EndGlobalSection
+EndGlobal
