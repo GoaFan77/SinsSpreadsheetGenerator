@@ -20,4 +20,4 @@ Developed by GoaFan77.
 # License
 This project is licensed under the Apache 2.0 License. If you wish to expand on this project, please reach out to me first, but if its clearly abandoned feel free to go ahead and revive it.
 
-If you use this tool to help balance your mod, consider adding a shoutout to GoaFan77 and link to this tool in the credits. :)w
+If you use this tool to help balance your mod, consider adding a shoutout to GoaFan77 and link to this tool in the credits. :)
