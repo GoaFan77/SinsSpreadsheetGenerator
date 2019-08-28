@@ -90,7 +90,7 @@ namespace SinsSpreadsheetGenerator
         private async Task ProcessMod(string mod, short modOrder)
         {
             var modStringDictionary = Helpers.BuildStringMap(mod + @"/String/English.str");
-            string[] entityFiles = Directory.GetFiles(mod + "/GameInfo", Filter + "*.entity");
+            string[] entityFiles = Directory.GetFiles(mod + "/GameInfo", "*" + Filter + "*.entity");
             foreach (var entity in entityFiles)
             {
                 Entity entityObject = await new EntityReader(entity).BuildEntity(modStringDictionary);

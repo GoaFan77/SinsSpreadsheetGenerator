@@ -80,7 +80,7 @@ namespace SinsSpreadsheetGenerator
 
                 if (parseWeapon)
                 {
-                    if (key == "WeaponType" || key == "projectileTravelEffectName")
+                    if (key == "fireConstraintType")
                     {
                         entity.AddWeapon(addWeapon);
                         addWeapon = new Weapon();
