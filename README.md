@@ -14,6 +14,9 @@ SinsSpreadsheetGenerator has only one required arguement, a file name or absolut
   * 2: Type
   * 3: StatCountType
   
+# File Types
+Currently the only supported file type is CSV (Comma Separated Values). This format is supported by almost all spreadsheet and text editor programs, but does not support much formatting.
+  
 # Credits
 Developed by GoaFan77.
   
