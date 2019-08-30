@@ -86,7 +86,7 @@ namespace SinsSpreadsheetGenerator.EntityClasses
         {
             return $@"{EntityName},{Name},{Type},{StatCountType},{ArmorType},{FleetSupply},{Credits},{GetValuePerUnit(Credits)},{Metal},{GetValuePerUnit(Metal)},{Crystal},{GetValuePerUnit(Crystal)}," +
                 $@"{BuildTime},{GetValuePerUnit(BuildTime)},{XP},{GetValuePerUnit(XP)},{Hull},{GetValuePerUnit(Hull)},{HullRestore},{GetValuePerUnit(HullRestore)},{Shields},{GetValuePerUnit(Shields)}," +
-                $@"{ShieldRestore},{GetValuePerUnit(ShieldRestore)},{Armor},{TotalSurviveability},{GetValuePerUnit(TotalSurviveability)},{DPS},{GetValuePerUnit(DPS)},{MaxSingleTargetDPS},{GetValuePerUnit(MaxSingleTargetDPS)}," +
+                $@"{ShieldRestore},{GetValuePerUnit(ShieldRestore)},{Armor},{TotalSurviveability},{GetValuePerUnit(TotalSurviveability)},{DPS},{GetValuePerUnit(DPS)},{MaxSingleTargetDPS},{GetValuePerUnit(MaxSingleTargetDPS)},{MaxRange}," +
                 $@"{BombingDPS},{GetValuePerUnit(BombingDPS)},{BombingPopKilledPerSecond},{GetValuePerUnit(BombingPopKilledPerSecond)},{CommandPoints},{GetValuePerUnit(CommandPoints)},{MaxSpeed}";
         }
     }

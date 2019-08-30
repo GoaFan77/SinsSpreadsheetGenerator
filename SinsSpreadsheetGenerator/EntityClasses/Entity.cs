@@ -120,6 +120,18 @@ namespace SinsSpreadsheetGenerator.EntityClasses
         [EntityLine("TargetCountPerBank:RIGHT")]
         public int NumTargetsRight { get; set; }
 
+        public decimal MaxRange
+        {
+            get
+            {
+                if (WeaponList.Count == 0)
+                {
+                    return 0;
+                }
+                return WeaponList.Select(w => w.Range).Max();
+            }
+        }
+
         public List<Weapon> WeaponList { get; set; }
 
         public decimal ArmorMultiplier

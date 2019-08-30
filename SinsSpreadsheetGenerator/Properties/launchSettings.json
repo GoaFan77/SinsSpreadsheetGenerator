@@ -2,7 +2,7 @@
   "profiles": {
     "SinsSpreadsheetGenerator": {
       "commandName": "Project",
-      "commandLineArgs": "\"F:\\Users\\Nathanael\\Desktop\\SinsSpreadsheetTest.csv\" -d \"F:\\Users\\Nathanael\\Documents\\My Games\\Ironclad Games\\Sins of a Solar Empire Rebellion\\Mods-Rebellion v1.85 Dev\\Interregnum Dev\" -d \"F:\\Users\\Nathanael\\Documents\\My Games\\Ironclad Games\\Sins of a Solar Empire Rebellion\\Mods-Rebellion v1.85 Dev\\Enhanced4XModRepo\" -d \"F:\\Users\\Nathanael\\Documents\\Rebellion Reference\" -f \"PsiAntiModule\""
+      "commandLineArgs": "\"F:\\Users\\Nathanael\\Desktop\\SinsSpreadsheetTest.csv\" -d \"F:\\Users\\Nathanael\\Documents\\My Games\\Ironclad Games\\Sins of a Solar Empire Rebellion\\Mods-Rebellion v1.85 Dev\\Interregnum Dev\" -d \"F:\\Users\\Nathanael\\Documents\\My Games\\Ironclad Games\\Sins of a Solar Empire Rebellion\\Mods-Rebellion v1.85 Dev\\Enhanced4XModRepo\" -d \"F:\\Users\\Nathanael\\Documents\\Rebellion Reference\""
     }
   }
 }
