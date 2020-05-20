@@ -15,8 +15,8 @@ namespace SinsSpreadsheetGenerator
     class SinsSpreadsheetGeneratorMain
     {
         const string CSV_HEADER = "Entity Name,Name,Type,StatCountType,Armor Type,Fleet Supply (FS),Credits,Credits/FS,Metal,Metal/FS,Crystal,Crystal/FS,Build Time,Build Time/FS,XP,XP/FS,Hull,Hull/FS,Hull Restore," +
-            "Hull Restore/FS,Shields,Shields/FS,Shield Restore,Shield Restore/FS,Armor,Total Surviveability,Total Surviveability/FS,DPS,DPS/FS,Max Single Target DPS,Max Single Target DPS/FS,Max Range," +
-            "Bombing DPS,Bombing DPS/FS,Population Killed per Second,Population Killed per Second/FS,Command Points,Command Points/FS,Max Speed";
+            "Hull Restore/FS,Shields,Shields/FS,Shield Restore,Shield Restore/FS,Armor,Total Surviveability,Total Surviveability/FS,Antimatter,Antimatter/FS,Antimatter Restore, Antimatter Restore/FS," +
+            "DPS,DPS/FS,Max Single Target DPS,Max Single Target DPS/FS,Max Range,Bombing DPS,Bombing DPS/FS,Population Killed per Second,Population Killed per Second/FS,Command Points,Command Points/FS,Max Speed";
 
         public static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<SinsSpreadsheetGeneratorMain>(args);
 

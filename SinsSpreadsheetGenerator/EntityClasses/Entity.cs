@@ -50,6 +50,12 @@ namespace SinsSpreadsheetGenerator.EntityClasses
         [EntityLine("BaseArmorPoints")]
         public virtual decimal Armor { get; set; }
 
+        [EntityLine("MaxAntiMatter")]
+        public decimal Antimatter { get; set; }
+
+        [EntityLine("AntiMatterRestoreRate")]
+        public decimal AntimatterRestore { get; set; }
+
         [EntityLine("BuildTime")]
         public decimal BuildTime { get; set; }
 

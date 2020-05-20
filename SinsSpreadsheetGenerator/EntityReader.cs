@@ -39,68 +39,82 @@ namespace SinsSpreadsheetGenerator
             Weapon addWeapon = new Weapon();
             string line;
             string prevLine = "";
-            while ((line = await openedFile.ReadLineAsync()) != null) {
-                var lineArgs = line.Trim().Split();
-                if (lineArgs.Length == 1)
-                {
-                    prevLine = lineArgs[0];
-                    continue;
-                }
-
-                string key = lineArgs[0];
-                string value = lineArgs[1].Trim('"') ?? "";
-
-                // Capitalship/Titan stat level up blocks are defined on the line before, then have a "StartValue".
-                if (key == "StartValue")
-                {
-                    key = prevLine;
-                }
-
-                // Build the entity object to work with.
-                if (key == "entityType")
-                {
-                    entity = EntityFactory.GetEntity(value, EntityName);
-
-                    // Cannot process entity type, return.
-                    if (entity == null)
+            try
+            {
+                while ((line = await openedFile.ReadLineAsync()) != null) {
+                    var lineArgs = line.Trim().Split();
+                    if (lineArgs.Length == 1)
                     {
-                        return null;
-                    }
-                    continue;
-                }
-
-                // Use the string dictionary to look up the proper name, if available.
-                if (key == "NameStringID")
-                {
-                    if (modStringDictionary != null)
-                    {
-                        entity.Name = modStringDictionary[value];
-                    }
-                }
-
-                if (parseWeapon)
-                {
-                    if (key == "fireConstraintType")
-                    {
-                        entity.AddWeapon(addWeapon);
-                        addWeapon = new Weapon();
-                        parseWeapon = false;
+                        prevLine = lineArgs[0];
                         continue;
                     }
-                    addWeapon.LoadEntityValue(key, value);
-                }
 
-                if (key == "WeaponType")
-                {
-                    parseWeapon = true;
-                }
+                    string key = lineArgs[0];
+                    string value = lineArgs[1].Trim('"') ?? "";
 
-                if (entity == null)
-                {
-                    continue;
-                }
+                    // Capitalship/Titan stat level up blocks are defined on the line before, then have a "StartValue".
+                    if (key == "StartValue")
+                    {
+                        key = prevLine;
+                    }
 
-                entity.LoadEntityValue(key, value);
+                    // Build the entity object to work with.
+                    if (key == "entityType")
+                    {
+                        entity = EntityFactory.GetEntity(value, EntityName);
+
+                        // Cannot process entity type, return.
+                        if (entity == null)
+                        {
+                            return null;
+                        }
+                        continue;
+                    }
+
+                    // Use the string dictionary to look up the proper name, if available.
+                    if (key == "NameStringID")
+                    {
+                        if (modStringDictionary != null)
+                        {
+                            try
+                            {
+                                entity.Name = modStringDictionary[value];
+                            }
+                            catch (Exception ex)
+                            {
+                                entity.Name = " ";
+                            }
+                        }
+                    }
+
+                    if (parseWeapon)
+                    {
+                        if (key == "fireConstraintType")
+                        {
+                            entity.AddWeapon(addWeapon);
+                            addWeapon = new Weapon();
+                            parseWeapon = false;
+                            continue;
+                        }
+                        addWeapon.LoadEntityValue(key, value);
+                    }
+
+                    if (key == "WeaponType")
+                    {
+                        parseWeapon = true;
+                    }
+
+                    if (entity == null)
+                    {
+                        continue;
+                    }
+
+                    entity.LoadEntityValue(key, value);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Data.Add("FilePath", @FilePath);
             }
 
             return entity;
