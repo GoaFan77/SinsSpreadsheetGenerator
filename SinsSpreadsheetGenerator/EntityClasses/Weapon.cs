@@ -44,9 +44,8 @@ namespace SinsSpreadsheetGenerator.EntityClasses
 
         public void LoadEntityValue(string entityLine, string value)
         {
-            PropertyInfo property;
-            LinePropertyMap.TryGetValue(entityLine, out property);
-            if (property != null)
+            LinePropertyMap.TryGetValue(entityLine, out PropertyInfo property);
+            if (property != null && !string.IsNullOrEmpty(value))
             {
                 property.SetValue(this, Convert.ChangeType(Helpers.SanitizeValue(property.PropertyType, value), property.PropertyType));
             }

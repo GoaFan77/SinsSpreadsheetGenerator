@@ -27,7 +27,7 @@ namespace SinsSpreadsheetGenerator.EntityClasses
 
         public static string SanitizeValue(Type type, string value)
         {
-            if (type == typeof(Int32))
+            if (type == typeof(int) || type == typeof(short) || type == typeof(byte) || type == typeof(long)) 
             {
                 value = value.Split('.')[0];
             }
@@ -39,21 +39,23 @@ namespace SinsSpreadsheetGenerator.EntityClasses
             Dictionary<string, string> entityStringDictionary = new Dictionary<string, string>();
             try
             {
-                var stringFile = new StreamReader(@stringFilePath);
-                string line;
-                string stringId = "";
-                while ((line = stringFile.ReadLine()) != null)
+                using (var stringFile = new StreamReader(@stringFilePath))
                 {
-                    var lineArgs = line.Trim().Split(null, 2);
-                    string label = lineArgs[0];
-                    if (label == "ID")
+                    string line;
+                    string stringId = "";
+                    while ((line = stringFile.ReadLine()) != null)
                     {
-                        stringId = lineArgs[1].Trim('"') ?? "";
-                    }
-                    if (label == "Value")
-                    {
-                        entityStringDictionary.TryAdd(stringId, lineArgs[1].Trim('"') ?? "");
-                        stringId = "";
+                        var lineArgs = line.Trim().Split(null, 2);
+                        string label = lineArgs[0];
+                        if (label == "ID")
+                        {
+                            stringId = lineArgs[1].Trim('"') ?? "";
+                        }
+                        if (label == "Value")
+                        {
+                            entityStringDictionary.TryAdd(stringId, lineArgs[1].Trim('"') ?? "");
+                            stringId = "";
+                        }
                     }
                 }
             }

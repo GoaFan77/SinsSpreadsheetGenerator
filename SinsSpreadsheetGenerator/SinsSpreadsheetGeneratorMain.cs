@@ -14,9 +14,14 @@ namespace SinsSpreadsheetGenerator
     [HelpOption("-?")]
     class SinsSpreadsheetGeneratorMain
     {
-        const string CSV_HEADER = "Entity Name,Name,Type,StatCountType,Armor Type,Fleet Supply (FS),Credits,Credits/FS,Metal,Metal/FS,Crystal,Crystal/FS,Build Time,Build Time/FS,XP,XP/FS,Hull,Hull/FS,Hull Restore," +
+        const string CSV_UNIT_HEADER = "Entity Name,Name,Type,StatCountType,Armor Type,Fleet Supply (FS),Credits,Credits/FS,Metal,Metal/FS,Crystal,Crystal/FS,Build Time,Build Time/FS,XP,XP/FS,Hull,Hull/FS,Hull Restore," +
             "Hull Restore/FS,Shields,Shields/FS,Shield Restore,Shield Restore/FS,Armor,Total Surviveability,Total Surviveability/FS,Antimatter,Antimatter/FS,Antimatter Restore, Antimatter Restore/FS," +
             "DPS,DPS/FS,Max Single Target DPS,Max Single Target DPS/FS,Max Range,Bombing DPS,Bombing DPS/FS,Population Killed per Second,Population Killed per Second/FS,Command Points,Command Points/FS,Max Speed";
+
+        const string CSV_PLANET_HEADER = "Entity Name,Name,Type,Colonizable,Metal Extraction Rate,Min Metal Asteroids,Max Metal Asteroids,Metal Refinery Rate,Max Metal Refinery Ships,Crystal Extraction Rate,Min Crystal Asteroids,Max Crystal Asteroids,Crystal Refinery Rate,Max Crystal Refinery Ships," +
+            "Population,Growth Rate,Social Population,Max Total Population,Social Growth Bonus,Social Culture Bonus,Social Trade Penalty,Social Build Penalty,Industry Trade Bonus,Industry Build Bonus,Industry Population Penalty,Industry Growth Penalty,Industry Culture Penalty," +
+            "Smuggling %,Smuggling Corruption,Civilian Modules,Tactical Modules,Starbases,Space Mines,Health,Health Regen,Num Planet Bonuses,Home Tax Bonus,Home Metal Bonus, Home Crystal Bonus,Hyperspace Area,Move Area,Ruin Planet Type,Extra Ruin Scuttle Time," +
+            "Ruin Credits,Ruin Metal,Ruin Crystal";
 
         public static Task<int> Main(string[] args) => CommandLineApplication.ExecuteAsync<SinsSpreadsheetGeneratorMain>(args);
 
@@ -50,12 +55,20 @@ namespace SinsSpreadsheetGenerator
         [Option("-s|--Sort", Description = "Property to sort initial order of rows. 0 = Type then StatCountType, 1 = Name, 2 = Type, 3 = StatCountType")]
         private SortOption Sort { get; set; } = SortOption.TypeAndStatCountType;
 
+        [Option("-t|--Types", Description = "Property to limit the types of entities returned. Must use the same spreadsheet type. Defaults to all units. ")]
+        private EntityType[] Types { get; set; } = new EntityType[] { EntityType.Frigate, EntityType.CapitalShip, EntityType.Titan};
+
         private ConcurrentDictionary<string, Entity> Entities = new ConcurrentDictionary<string, Entity>();
 
         private async Task<int> OnExecuteAsync(CommandLineApplication app)
         {
             try
             {
+                if (Types.Contains(EntityType.Planet) && Types.Length > 1)
+                {
+                    throw new ArgumentException("Cannot output Planet Entity Types with other types.");
+                }
+
                 List<Task> modTasks = new List<Task>();
                 Console.WriteLine($@"Processing {ModDirectories.Length} Mods.");
                 short modOrder = 0; // A lower mod order gives priority to that mod's data.
@@ -73,7 +86,8 @@ namespace SinsSpreadsheetGenerator
 
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(OutputFile))
                 {
-                    file.WriteLine(CSV_HEADER);
+                    // First write CSV Header, then output each entity.
+                    file.WriteLine(Types.Contains(EntityType.Planet) ? CSV_PLANET_HEADER : CSV_UNIT_HEADER);
                     sortedEntities.ForEach(e => file.WriteLine(e.ExportToCSV()));
                 }
                 Console.WriteLine("Done");
@@ -93,7 +107,7 @@ namespace SinsSpreadsheetGenerator
             string[] entityFiles = Directory.GetFiles(mod + "/GameInfo", "*" + Filter + "*.entity");
             foreach (var entity in entityFiles)
             {
-                Entity entityObject = await new EntityReader(entity).BuildEntity(modStringDictionary);
+                Entity entityObject = await new EntityReader(entity).BuildEntity(Types, modStringDictionary);
                 if (entityObject != null)
                 {
                     entityObject.ModOrder = modOrder;

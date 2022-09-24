@@ -14,8 +14,7 @@ namespace SinsSpreadsheetGenerator
         public static Entity GetEntity(string entityType, string fileName)
         {
             fileName = fileName.Split('\\').Last();
-            object type;
-            if (Enum.TryParse(typeof(EntityType), entityType, out type))
+            if (Enum.TryParse(typeof(EntityType), entityType, out object type))
             {
                 switch ((EntityType)type)
                 {
@@ -25,6 +24,8 @@ namespace SinsSpreadsheetGenerator
                         return new Capitalship(fileName);
                     case EntityType.Titan:
                         return new Titan(fileName);
+                    case EntityType.Planet:
+                        return new Planet(fileName);
                 }
             }
 

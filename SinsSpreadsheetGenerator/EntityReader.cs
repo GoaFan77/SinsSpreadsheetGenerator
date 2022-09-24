@@ -31,85 +31,62 @@ namespace SinsSpreadsheetGenerator
         /// <summary>
         /// Builds an Entity Class from the current FilePath.
         /// </summary>
-        public async Task<Entity> BuildEntity(Dictionary<string, string> modStringDictionary = null)
+        public async Task<Entity> BuildEntity(EntityType[] types, Dictionary<string, string> modStringDictionary = null)
         {
-            var openedFile = new StreamReader(@FilePath);
             Entity entity = null;
-            bool parseWeapon = false;
-            Weapon addWeapon = new Weapon();
             string line;
-            string prevLine = "";
             try
             {
-                while ((line = await openedFile.ReadLineAsync()) != null) {
-                    var lineArgs = line.Trim().Split();
-                    if (lineArgs.Length == 1)
+                using (var openedFile = new StreamReader(@FilePath))
+                {
+                    while ((line = await openedFile.ReadLineAsync()) != null)
                     {
-                        prevLine = lineArgs[0];
-                        continue;
-                    }
+                        var lineArgs = line.Trim().Split();
+                        string key = lineArgs[0];
+                        string value = lineArgs.Length == 1 ? "" : lineArgs[1].Trim('"');
 
-                    string key = lineArgs[0];
-                    string value = lineArgs[1].Trim('"') ?? "";
+                        // Build the entity object to work with.
+                        if (key == "entityType")
+                        {
+                            entity = EntityFactory.GetEntity(value, EntityName);
 
-                    // Capitalship/Titan stat level up blocks are defined on the line before, then have a "StartValue".
-                    if (key == "StartValue")
-                    {
-                        key = prevLine;
-                    }
+                            // Cannot process entity type, return.
+                            if (entity == null || !types.Contains(entity.Type))
+                            {
+                                return null;
+                            }
+                            continue;
+                        }
 
-                    // Build the entity object to work with.
-                    if (key == "entityType")
-                    {
-                        entity = EntityFactory.GetEntity(value, EntityName);
-
-                        // Cannot process entity type, return.
                         if (entity == null)
+                        {
+                            continue;
+                        }
+
+                        // Use the string dictionary to look up the proper name, if available.
+                        if (key == "NameStringID" || key == "typeNameStringID")
+                        {
+                            if (modStringDictionary != null)
+                            {
+                                try
+                                {
+                                    entity.Name = modStringDictionary[value];
+                                }
+                                catch (Exception ex)
+                                {
+                                    entity.Name = " ";
+                                }
+                            }
+                        }
+
+                        entity.LoadEntityValue(key, value);
+
+                        // It is possible for the entity type to change during parsing for certain items that cannot be fully determined at creation, like planets.
+                        if (entity != null && !types.Contains(entity.Type))
                         {
                             return null;
                         }
-                        continue;
                     }
-
-                    // Use the string dictionary to look up the proper name, if available.
-                    if (key == "NameStringID")
-                    {
-                        if (modStringDictionary != null)
-                        {
-                            try
-                            {
-                                entity.Name = modStringDictionary[value];
-                            }
-                            catch (Exception ex)
-                            {
-                                entity.Name = " ";
-                            }
-                        }
-                    }
-
-                    if (parseWeapon)
-                    {
-                        if (key == "fireConstraintType")
-                        {
-                            entity.AddWeapon(addWeapon);
-                            addWeapon = new Weapon();
-                            parseWeapon = false;
-                            continue;
-                        }
-                        addWeapon.LoadEntityValue(key, value);
-                    }
-
-                    if (key == "WeaponType")
-                    {
-                        parseWeapon = true;
-                    }
-
-                    if (entity == null)
-                    {
-                        continue;
-                    }
-
-                    entity.LoadEntityValue(key, value);
                 }
             }
             catch (Exception ex)

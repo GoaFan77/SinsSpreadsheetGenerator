@@ -7,7 +7,7 @@ namespace SinsSpreadsheetGenerator.EntityClasses
     /// <summary>
     /// Base class for Frigates, Corvettes, Capitalships, and Titans.
     /// </summary>
-    public abstract class Ship : Entity
+    public abstract class Ship : Unit
     {
         public Ship() : base()
         {

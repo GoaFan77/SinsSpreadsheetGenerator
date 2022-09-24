@@ -35,14 +35,24 @@ namespace SinsSpreadsheetGenerator.EntityClasses
         [EntityLine("CommandPoints")]
         public override int CommandPoints { get; set; }
 
+        private string prevLine { get; set; }
+
         public override void LoadEntityValue(string entityLine, string value)
         {
-            PropertyInfo property;
-            LinePropertyMap.TryGetValue(entityLine, out property);
-            if (property != null)
+            // Capitalship/Titan stat level up blocks are defined on the line before, then have a "StartValue".
+            if (entityLine == "StartValue")
+            {
+                entityLine = prevLine;
+            }
+            prevLine = entityLine;
+
+            LinePropertyMap.TryGetValue(entityLine, out PropertyInfo property);
+            if (property != null && !string.IsNullOrEmpty(value))
             {
                 property.SetValue(this, Convert.ChangeType(Helpers.SanitizeValue(property.PropertyType, value), property.PropertyType));
             }
+
+            base.LoadEntityValue(entityLine, value);
         }
     }
 }
